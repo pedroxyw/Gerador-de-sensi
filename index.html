@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Sensibilidade | Pedroxyw</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
+        body { background-color: #000; height: 100vh; display: flex; justify-content: center; align-items: center; overflow: hidden; color: white; }
+        
+        /* Fundo de Partículas Fiel ao vídeo */
+        #particles-js { position: absolute; width: 100%; height: 100%; z-index: 1; top: 0; left: 0; }
+
+        .card {
+            position: relative; z-index: 10;
+            background: rgba(0, 0, 0, 0.92);
+            padding: 30px; border-radius: 12px;
+            border: 1px solid #222;
+            width: 380px; text-align: center;
+            box-shadow: 0 0 30px rgba(0,0,0,1);
+        }
+
+        h2 { font-size: 1.5rem; margin-bottom: 5px; font-weight: 600; }
+        p { font-size: 0.85rem; color: #888; margin-bottom: 25px; }
+
+        .tabs { display: flex; gap: 10px; margin-bottom: 20px; }
+        .tab-btn {
+            flex: 1; padding: 10px; border: 1px solid white; background: transparent;
+            color: white; border-radius: 8px; cursor: pointer; transition: 0.3s; font-weight: bold;
+        }
+        .tab-btn.active { background: white; color: black; }
+
+        .content-section { display: none; text-align: left; }
+        .content-section.active { display: block; }
+
+        select, .btn-action { width: 100%; padding: 12px; border-radius: 8px; margin-bottom: 12px; font-size: 0.9rem; }
+        select { background: #000; border: 1px solid #333; color: white; outline: none; cursor: pointer; }
+        
+        /* Ajuste para listas longas no mobile */
+        select option { background: #111; color: white; }
+
+        .checkbox-group { background: rgba(255,255,255,0.03); padding: 15px; border-radius: 10px; margin-bottom: 15px; border: 1px solid #222; }
+        .check-item { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; font-size: 0.85rem; color: #ccc; cursor: pointer; }
+        .check-item input { accent-color: #fff; width: 16px; height: 16px; cursor: pointer; }
+
+        .btn-action { background: transparent; border: 1px solid white; color: white; font-weight: bold; cursor: pointer; text-transform: uppercase; }
+        .btn-action:hover { background: white; color: black; }
+        .btn-solid { background: white; color: black; border: none; }
+
+        /* Dados da Sensi */
+        .sensi-results { margin-top: 15px; font-size: 0.85rem; color: #fff; line-height: 1.8; display: none; border-top: 1px solid #222; padding-top: 15px; }
+        .sensi-results b { color: #55aaff; }
+
+        /* Progresso Auxílio */
+        .progress-container { width: 100%; height: 6px; background: #222; border-radius: 10px; margin-top: 15px; display: none; overflow: hidden; }
+        .progress-bar { width: 0%; height: 100%; background: white; transition: 1.8s ease-in-out; }
+        .success-msg { color: #fff; font-size: 0.85rem; margin-top: 12px; display: none; text-align: center; font-weight: 500; }
+
+        .footer { position: fixed; bottom: 15px; font-size: 0.75rem; color: #444; z-index: 10; width: 100%; text-align: center; }
+    </style>
+</head>
+<body>
+
+    <div id="particles-js"></div>
+
+    <div class="card">
+        <h2>Sensibilidade / Auxílio</h2>
+        <p>Configure a sensibilidade para usar</p>
+
+        <div class="tabs">
+            <button id="t-sensi" class="tab-btn active" onclick="switchTab('sensi')">Sensi</button>
+            <button id="t-aux" class="tab-btn" onclick="switchTab('auxilio')">Auxílio</button>
+        </div>
+
+        <div id="sensi" class="content-section active">
+            <select id="marca" onchange="atualizarModelos()">
+                <option value="">Selecione a marca</option>
+                <option value="apple">Apple</option>
+                <option value="samsung">Samsung</option>
+                <option value="xiaomi">Xiaomi</option>
+                <option value="motorola">Motorola</option>
+                <option value="asus">Asus</option>
+                <option value="realme">Realme</option>
+                <option value="huawei">Huawei</option>
+                <option value="lg">LG</option>
+                <option value="sony">Sony</option>
+                <option value="infinix">Infinix</option>
+            </select>
+            <select id="modelo"><option>Selecione o modelo</option></select>
+            <button class="btn-action" onclick="gerarSensi()">Gerar</button>
+
+            <div id="sensi-data" class="sensi-results">
+                Modelo: <b id="res-mod">...</b><br>
+                Geral: <b>96</b><br>
+                Red Dot: <b>142</b><br>
+                Mira 2x: <b>118</b><br>
+                Mira 4x: <b>105</b><br>
+                Botão de Atirar: <b>55%</b>
+            </div>
+        </div>
+
+        <div id="auxilio" class="content-section">
+            <div class="checkbox-group">
+                <label class="check-item"><input type="checkbox"> Calibrar sensibilidade</label>
+                <label class="check-item"><input type="checkbox"> Reduzir recuo (Recoil)</label>
+                <label class="check-item"><input type="checkbox"> Aumentar precisão</label>
+                <label class="check-item"><input type="checkbox"> Retirar input lag</label>
+            </div>
+            <button class="btn-action btn-solid" onclick="injetar()">Injetar</button>
+            <div class="progress-container" id="p-cont"><div class="progress-bar" id="p-bar"></div></div>
+            <div class="success-msg" id="msg">Injetado com sucesso!</div>
+        </div>
+    </div>
+
+    <div class="footer">Desenvolvido por @pedroxyw</div>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        const dispositivos = {
+            apple: ["iPhone 7", "iPhone 7 Plus", "iPhone 8", "iPhone 8 Plus", "iPhone X", "iPhone XR", "iPhone XS", "iPhone XS Max", "iPhone 11", "iPhone 11 Pro", "iPhone 11 Pro Max", "iPhone 12", "iPhone 12 Mini", "iPhone 12 Pro", "iPhone 12 Pro Max", "iPhone 13", "iPhone 13 Mini", "iPhone 13 Pro", "iPhone 13 Pro Max", "iPhone 14", "iPhone 14 Plus", "iPhone 14 Pro", "iPhone 14 Pro Max", "iPhone 15", "iPhone 15 Plus", "iPhone 15 Pro", "iPhone 15 Pro Max", "iPhone SE (2020)", "iPhone SE (2022)"],
+            samsung: ["Galaxy S10", "Galaxy S10+", "Galaxy S10e", "Galaxy S20", "Galaxy S20+", "Galaxy S20 Ultra", "Galaxy S20 FE", "Galaxy S21", "Galaxy S21+", "Galaxy S21 Ultra", "Galaxy S21 FE", "Galaxy S22", "Galaxy S22+", "Galaxy S22 Ultra", "Galaxy S23", "Galaxy S23+", "Galaxy S23 Ultra", "Galaxy S24", "Galaxy S24 Ultra", "Galaxy A01", "Galaxy A10", "Galaxy A10s", "Galaxy A20", "Galaxy A21s", "Galaxy A30", "Galaxy A31", "Galaxy A32", "Galaxy A34", "Galaxy A50", "Galaxy A51", "Galaxy A52", "Galaxy A52s", "Galaxy A53", "Galaxy A54", "Galaxy A71", "Galaxy A73", "Galaxy M12", "Galaxy M23", "Galaxy M31", "Galaxy M51", "Galaxy M53", "Galaxy M54", "Galaxy Note 10", "Galaxy Note 20 Ultra"],
+            xiaomi: ["Redmi Note 7", "Redmi Note 8", "Redmi Note 8 Pro", "Redmi Note 9", "Redmi Note 9S", "Redmi Note 9 Pro", "Redmi Note 10", "Redmi Note 10 Pro", "Redmi Note 11", "Redmi Note 11S", "Redmi Note 11 Pro", "Redmi Note 12", "Redmi Note 12 Pro+", "Redmi Note 13", "Redmi Note 13 Pro", "Poco X3", "Poco X3 Pro", "Poco X3 GT", "Poco X4 Pro", "Poco X5", "Poco X5 Pro", "Poco X6 Pro", "Poco F3", "Poco F4", "Poco F4 GT", "Poco F5", "Poco F5 Pro", "Poco M3", "Poco M4 Pro", "Xiaomi Mi 9T", "Xiaomi Mi 10T Pro", "Xiaomi 11 Lite 5G NE", "Xiaomi 12", "Xiaomi 12T Pro", "Xiaomi 13 Ultra"],
+            motorola: ["Moto G8", "Moto G8 Plus", "Moto G8 Power", "Moto G9 Play", "Moto G9 Plus", "Moto G10", "Moto G20", "Moto G30", "Moto G31", "Moto G32", "Moto G41", "Moto G50", "Moto G52", "Moto G54", "Moto G60", "Moto G60s", "Moto G71", "Moto G73", "Moto G82", "Moto G84", "Moto G100", "Moto G200", "Edge 20", "Edge 20 Lite", "Edge 20 Pro", "Edge 30", "Edge 30 Neo", "Edge 30 Fusion", "Edge 30 Ultra", "Edge 40", "Edge 40 Neo"],
+            asus: ["ROG Phone 2", "ROG Phone 3", "ROG Phone 5", "ROG Phone 5s", "ROG Phone 6", "ROG Phone 6D", "ROG Phone 7 Ultimate", "ROG Phone 8 Pro", "Zenfone 8", "Zenfone 9", "Zenfone 10"],
+            realme: ["Realme 7", "Realme 7 Pro", "Realme 8", "Realme 8 Pro", "Realme 9", "Realme 9 Pro+", "Realme 10", "Realme 11 Pro+", "Realme GT Master Edition", "Realme GT Neo 2", "Realme GT Neo 3", "Realme GT 2 Pro"],
+            huawei: ["P30 Lite", "P30 Pro", "P40 Pro", "P50 Pro", "Mate 30 Pro", "Mate 40 Pro", "Nova 5T", "Nova 9", "Nova 10 Pro"],
+            lg: ["LG K41s", "LG K51s", "LG K52", "LG K61", "LG K62", "LG G7 ThinQ", "LG G8X", "LG Velvet", "LG V60 ThinQ"],
+            sony: ["Xperia 1 II", "Xperia 1 III", "Xperia 1 IV", "Xperia 1 V", "Xperia 5 II", "Xperia 5 IV", "Xperia 10 III", "Xperia 10 V"],
+            infinix: ["Hot 10", "Hot 11", "Hot 11s", "Hot 12", "Hot 20", "Hot 30i", "Note 10 Pro", "Note 12", "Note 30 Pro", "Zero 5G", "Zero Ultra"]
+        };
+
+        function atualizarModelos() {
+            const m = document.getElementById("marca").value;
+            const s = document.getElementById("modelo");
+            s.innerHTML = '<option>Selecione o modelo</option>';
+            if(m && dispositivos[m]) {
+                dispositivos[m].forEach(d => {
+                    let o = document.createElement("option"); o.text = d; o.value = d; s.add(o);
+                });
+            }
+        }
+
+        function switchTab(t) {
+            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(t).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+
+        function gerarSensi() {
+            const mod = document.getElementById("modelo").value;
+            if(mod.includes("Selecione") || mod === "") return;
+            document.getElementById("res-mod").innerText = mod;
+            document.getElementById("sensi-data").style.display = "block";
+        }
+
+        function injetar() {
+            const pCont = document.getElementById("p-cont");
+            const pBar = document.getElementById("p-bar");
+            const msg = document.getElementById("msg");
+            pCont.style.display = "block";
+            pBar.style.width = "0%";
+            msg.style.display = "none";
+            setTimeout(() => {
+                pBar.style.width = "100%";
+                setTimeout(() => { msg.style.display = "block"; }, 1800);
+            }, 100);
+        }
+
+        // Partículas Estáveis (Sem bugs de tamanho)
+        particlesJS("particles-js", {
+            "particles": {
+                "number": { "value": 85, "density": { "enable": true, "value_area": 800 } },
+                "color": { "value": "#ffffff" },
+                "shape": { "type": "circle" },
+                "opacity": { "value": 0.3 },
+                "size": { "value": 2 },
+                "line_linked": { "enable": true, "distance": 150, "color": "#ffffff", "opacity": 0.2, "width": 1 },
+                "move": { "enable": true, "speed": 1.5, "out_mode": "out" }
+            },
+            "interactivity": { "events": { "onhover": { "enable": true, "mode": "grab" } } },
+            "retina_detect": true
+        });
+    </script>
+</body>
+</html>
