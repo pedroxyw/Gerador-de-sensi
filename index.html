@@ -49,40 +49,9 @@
         .progress-bar { width: 0%; height: 100%; background: white; transition: 1.5s ease; }
         .success-msg { color: #fff; font-size: 0.85rem; margin-top: 10px; display: none; text-align: center; }
 
+        /* NOVO ESTILO PARA O BOTÃO DE ABRIR */
         #btn-abrir { background: #25d366; border: none; color: white; display: none; margin-top: 10px; }
-        #btn-abrir:hover { background: #1eb954; color: white; }
+        #btn-abrir:hover { background: #1eb954; }
 
         .footer { position: fixed; bottom: 20px; font-size: 0.75rem; color: #555; z-index: 10; width: 100%; text-align: center; }
-    </style>
-</head>
-<body>
-
-    <div id="particles-js"></div>
-
-    <div class="card">
-        <h2>Sensibilidade / Auxílio</h2>
-        <p>Configure a sensibilidade para usar</p>
-
-        <div class="tabs">
-            <button id="t-sensi" class="tab-btn active" onclick="switchTab('sensi')">Sensi</button>
-            <button id="t-aux" class="tab-btn" onclick="switchTab('auxilio')">Auxílio</button>
-        </div>
-
-        <div id="sensi" class="content-section active">
-            <select id="marca" onchange="atualizarModelos()">
-                <option value="">Selecione a marca</option>
-                <option value="apple">Apple</option>
-                <option value="samsung">Samsung</option>
-                <option value="xiaomi">Xiaomi</option>
-                <option value="motorola">Motorola</option>
-                <option value="asus">Asus</option>
-                <option value="realme">Realme</option>
-                <option value="huawei">Huawei</option>
-                <option value="lg">LG</option>
-                <option value="sony">Sony</option>
-                <option value="infinix">Infinix</option>
-            </select>
-            <select id="modelo"><option>Selecione o modelo</option></select>
-            <button class="btn-action" onclick="gerarSensi()">Gerar</button>
-
-            <div id="sensi-data" class="sensi-results
+    </style
