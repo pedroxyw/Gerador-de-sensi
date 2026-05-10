@@ -3,45 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerador de Sensi | Pedroxyw</title>
+    <title>Gerador de Sensibilidade | Pedroxyw</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
         body { background-color: #000; height: 100vh; display: flex; justify-content: center; align-items: center; overflow: hidden; color: white; }
         #particles-js { position: absolute; width: 100%; height: 100%; z-index: 1; top: 0; left: 0; }
-        .card { position: relative; z-index: 10; background: rgba(0, 0, 0, 0.92); padding: 30px; border-radius: 12px; border: 1px solid #222; width: 380px; text-align: center; box-shadow: 0 0 30px rgba(0,0,0,1); }
+
+        .card {
+            position: relative; z-index: 10;
+            background: rgba(0, 0, 0, 0.95);
+            padding: 30px; border-radius: 15px;
+            border: 1px solid #333;
+            width: 380px; text-align: center;
+            box-shadow: 0 0 30px rgba(0,0,0,1);
+        }
+
         h2 { font-size: 1.5rem; margin-bottom: 5px; }
         p { font-size: 0.85rem; color: #888; margin-bottom: 25px; }
+
         .tabs { display: flex; gap: 10px; margin-bottom: 20px; }
-        .tab-btn { flex: 1; padding: 10px; border: 1px solid white; background: transparent; color: white; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        .tab-btn {
+            flex: 1; padding: 12px; border: 1px solid white; background: transparent;
+            color: white; border-radius: 8px; cursor: pointer; transition: 0.3s; font-weight: bold;
+        }
         .tab-btn.active { background: white; color: black; }
+
         .content-section { display: none; text-align: left; }
         .content-section.active { display: block; }
+
         select, .btn-action { width: 100%; padding: 12px; border-radius: 8px; margin-bottom: 12px; font-size: 0.9rem; }
-        select { background: #000; border: 1px solid #333; color: white; outline: none; }
+        select { background: #000; border: 1px solid #444; color: white; outline: none; cursor: pointer; }
+
         .checkbox-group { background: rgba(255,255,255,0.03); padding: 15px; border-radius: 10px; margin-bottom: 15px; border: 1px solid #222; }
         .check-item { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; font-size: 0.85rem; color: #ccc; }
+        .check-item input { accent-color: #fff; width: 16px; height: 16px; cursor: pointer; }
+
         .btn-action { background: transparent; border: 1px solid white; color: white; font-weight: bold; cursor: pointer; text-transform: uppercase; }
+        .btn-action:hover { background: white; color: black; }
         .btn-solid { background: white; color: black; border: none; }
+
         .sensi-results { margin-top: 15px; font-size: 0.85rem; color: #fff; line-height: 1.8; display: none; border-top: 1px solid #222; padding-top: 15px; }
         .sensi-results b { color: #55aaff; }
+
         .progress-container { width: 100%; height: 6px; background: #222; border-radius: 10px; margin-top: 15px; display: none; overflow: hidden; }
-        .progress-bar { width: 0%; height: 100%; background: white; transition: 1.8s ease-in-out; }
-        #log-status { font-size: 0.7rem; color: #0f0; margin-top: 10px; font-family: monospace; display: none; text-align: center; }
-        .success-msg { color: #fff; font-size: 0.85rem; margin-top: 12px; display: none; text-align: center; font-weight: 500; }
-        .footer { position: fixed; bottom: 15px; font-size: 0.75rem; color: #444; z-index: 10; width: 100%; text-align: center; }
+        .progress-bar { width: 0%; height: 100%; background: white; transition: 1.5s ease; }
+        .success-msg { color: #fff; font-size: 0.85rem; margin-top: 10px; display: none; text-align: center; }
+
+        .footer { position: fixed; bottom: 20px; font-size: 0.75rem; color: #555; z-index: 10; width: 100%; text-align: center; }
     </style>
 </head>
 <body>
+
     <div id="particles-js"></div>
+
     <div class="card">
         <h2>Sensibilidade / Auxílio</h2>
         <p>Configure a sensibilidade para usar</p>
+
         <div class="tabs">
             <button id="t-sensi" class="tab-btn active" onclick="switchTab('sensi')">Sensi</button>
             <button id="t-aux" class="tab-btn" onclick="switchTab('auxilio')">Auxílio</button>
         </div>
+
         <div id="sensi" class="content-section active">
             <select id="marca" onchange="atualizarModelos()">
                 <option value="">Selecione a marca</option>
                 <option value="apple">Apple</option>
-                <option value="samsung
+                <option value="samsung">Samsung</option>
+                <option value="xiaomi">Xiaomi</option>
+                <option value="motorola">Motorola</option>
+                <option value="asus">Asus</option>
+                <option value="real
