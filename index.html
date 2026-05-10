@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gerador de Sensibilidade | Pedroxyw</title>
     <style>
+        /* Estilos idênticos ao seu vídeo original */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
         body { background-color: #000; height: 100vh; display: flex; justify-content: center; align-items: center; overflow: hidden; color: white; }
-        #particles-js { position: absolute; width: 100%; height: 100%; z-index: 1; top: 0; left: 0; }
+        #particles-js { position: absolute; width: 100%; height: 100%; z-index: 1; top: 0; left: 0; background-color: #000; }
 
         .card {
             position: relative; z-index: 10;
@@ -45,4 +46,11 @@
         .sensi-results { margin-top: 15px; font-size: 0.85rem; color: #fff; line-height: 1.8; display: none; border-top: 1px solid #222; padding-top: 15px; }
         .sensi-results b { color: #55aaff; }
 
-        .progress-container { width: 100%; height: 6px; background: #222; border-radius: 1
+        .progress-container { width: 100%; height: 6px; background: #222; border-radius: 10px; margin-top: 15px; display: none; overflow: hidden; }
+        .progress-bar { width: 0%; height: 100%; background: white; transition: 1.5s ease; }
+        .success-msg { color: #fff; font-size: 0.85rem; margin-top: 10px; display: none; text-align: center; }
+
+        .footer { position: fixed; bottom: 20px; font-size: 0.75rem; color: #555; z-index: 10; width: 100%; text-align: center; }
+    </style>
+</head>
+<body>
