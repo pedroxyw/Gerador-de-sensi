@@ -49,7 +49,6 @@
         .progress-bar { width: 0%; height: 100%; background: white; transition: 1.5s ease; }
         .success-msg { color: #fff; font-size: 0.85rem; margin-top: 10px; display: none; text-align: center; }
 
-        /* Estilo do botão de abrir jogo */
         #btn-abrir { background: #25d366; border: none; color: white; display: none; margin-top: 10px; }
         #btn-abrir:hover { background: #1eb954; color: white; }
 
@@ -65,8 +64,8 @@
         <p>Configure a sensibilidade para usar</p>
 
         <div class="tabs">
-            <button id="t-sensi" class="tab-btn active" onclick="switchTab('sensi')">Sensi</button>
-            <button id="t-aux" class="tab-btn" onclick="switchTab('auxilio')">Auxílio</button>
+            <button id="t-sensi" class="tab-btn active" onclick="switchTab('sensi', this)">Sensi</button>
+            <button id="t-aux" class="tab-btn" onclick="switchTab('auxilio', this)">Auxílio</button>
         </div>
 
         <div id="sensi" class="content-section active">
@@ -83,4 +82,53 @@
                 <option value="sony">Sony</option>
                 <option value="infinix">Infinix</option>
             </select>
-            <select id="modelo"><option>Se
+            <select id="modelo"><option>Selecione o modelo</option></select>
+            <button class="btn-action" onclick="gerarSensi()">Gerar</button>
+
+            <div id="sensi-data" class="sensi-results">
+                Modelo: <b id="res-mod">...</b><br>
+                Geral: <b>94</b><br>
+                Ponto Vermelho: <b>148</b><br>
+                Mira 2x: <b>115</b><br>
+                Mira 4x: <b>108</b><br>
+                Tamanho do Botão: <b>52%</b>
+            </div>
+        </div>
+
+        <div id="auxilio" class="content-section">
+            <div class="checkbox-group">
+                <label class="check-item"><input type="checkbox"> Otimizar FPS</label>
+                <label class="check-item"><input type="checkbox"> Fixar Mira (Aimbot Static)</label>
+                <label class="check-item"><input type="checkbox"> Limpar Cache de Sensibilidade</label>
+                <label class="check-item"><input type="checkbox"> Retirar input lag</label>
+            </div>
+            <button class="btn-action btn-solid" onclick="injetar()">Injetar</button>
+            <div class="progress-container" id="p-cont"><div class="progress-bar" id="p-bar"></div></div>
+            <div class="success-msg" id="msg">✅ Injetado com sucesso!</div>
+            <button id="btn-abrir" class="btn-action" onclick="abrirJogo()">Abrir Free Fire</button>
+        </div>
+    </div>
+
+    <div class="footer">Desenvolvido por @pedroxyw</div>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        const dispositivos = {
+            apple: [
+                "iPhone 6", "iPhone 6 Plus", "iPhone 6S", "iPhone 6S Plus", "iPhone 7", "iPhone 7 Plus", "iPhone 8", "iPhone 8 Plus", 
+                "iPhone X", "iPhone XR", "iPhone XS", "iPhone XS Max", "iPhone 11", "iPhone 11 Pro", "iPhone 11 Pro Max", "iPhone SE (2020)", 
+                "iPhone 12", "iPhone 12 Mini", "iPhone 12 Pro", "iPhone 12 Pro Max", "iPhone 13", "iPhone 13 Mini", "iPhone 13 Pro", 
+                "iPhone 13 Pro Max", "iPhone 14", "iPhone 14 Plus", "iPhone 14 Pro", "iPhone 14 Pro Max", "iPhone 15", "iPhone 15 Plus", 
+                "iPhone 15 Pro", "iPhone 15 Pro Max"
+            ],
+            samsung: [
+                "Galaxy S8", "Galaxy S8+", "Galaxy S9", "Galaxy S9+", "Galaxy S10", "Galaxy S10e", "Galaxy S10+", "Galaxy S20", 
+                "Galaxy S20 FE", "Galaxy S20 Ultra", "Galaxy S21", "Galaxy S21 FE", "Galaxy S21 Ultra", "Galaxy S22", "Galaxy S22 Ultra", 
+                "Galaxy S23", "Galaxy S23 FE", "Galaxy S23 Ultra", "Galaxy S24", "Galaxy S24 Ultra", "Galaxy A01", "Galaxy A10", 
+                "Galaxy A10s", "Galaxy A11", "Galaxy A12", "Galaxy A13", "Galaxy A14", "Galaxy A20", "Galaxy A21s", "Galaxy A22", 
+                "Galaxy A23", "Galaxy A30", "Galaxy A31", "Galaxy A32", "Galaxy A33", "Galaxy A34", "Galaxy A50", "Galaxy A51", 
+                "Galaxy A52", "Galaxy A52s", "Galaxy A53", "Galaxy A54", "Galaxy A70", "Galaxy A71", "Galaxy A73", "Galaxy M12", 
+                "Galaxy M23", "Galaxy M31", "Galaxy M51", "Galaxy M52", "Galaxy M54", "Galaxy Note 10", "Galaxy Note 20 Ultra"
+            ],
+            xiaomi: [
+                "Redmi Note 7", "Redmi Note 8", "Redmi Note 8 Pro",
